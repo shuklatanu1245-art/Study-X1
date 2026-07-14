@@ -3,12 +3,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/auth/Login';
 import './App.css';
 
+// Global Components
+import Layout from './components/Layout';
+
+// Public Pages
+import Home from './pages/public/Home';
+import Batches from './pages/public/Batches';
+
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ContentManager from './pages/admin/ContentManager';
-
-// Student Pages
-import StudentDashboard from './pages/student/Dashboard';
 
 const AdminRoute = ({ children }) => {
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -24,13 +28,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Student Dashboard */}
-        <Route path="/" element={<StudentDashboard />} />
+        {/* Public Routes with Layout */}
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/batches" element={<Layout><Batches /></Layout>} />
         
         {/* Admin Login */}
         <Route path="/admin-login" element={<Login />} />
         
-        {/* Protected Admin Routes */}
+        {/* Protected Admin Routes (No public layout) */}
         <Route path="/admin/*" element={
           <AdminRoute>
             <Routes>

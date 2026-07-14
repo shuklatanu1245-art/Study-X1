@@ -20,9 +20,8 @@ const Footer = () => {
           <div>
             <h3 style={{ marginBottom: '16px' }}>Company</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <a href="#" className="text-muted" style={{ textDecoration: 'none' }}>About Us</a>
-              <a href="#" className="text-muted" style={{ textDecoration: 'none' }}>Contact Us</a>
-              <a href="#" className="text-muted" style={{ textDecoration: 'none' }}>Careers</a>
+              <Link to="/" className="text-muted" style={{ textDecoration: 'none' }}>About Us</Link>
+              <Link to="/" className="text-muted" style={{ textDecoration: 'none' }}>Contact Us</Link>
             </div>
           </div>
           
@@ -30,8 +29,8 @@ const Footer = () => {
             <h3 style={{ marginBottom: '16px' }}>Quick Links</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Link to="/batches" className="text-muted" style={{ textDecoration: 'none' }}>Batches</Link>
-              <a href="#" className="text-muted" style={{ textDecoration: 'none' }}>PW Store</a>
-              <a href="#" className="text-muted" style={{ textDecoration: 'none' }}>Library</a>
+              <Link to="/check-attendance" className="text-muted" style={{ textDecoration: 'none' }}>Parent Portal</Link>
+              <Link to="/login" className="text-muted" style={{ textDecoration: 'none' }}>Staff Login</Link>
             </div>
           </div>
         </div>

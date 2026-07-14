@@ -15,12 +15,12 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/" className="nav-link">Home</Link>
         <Link to="/batches" className="nav-link">Batches</Link>
-        <a href="#study-material" className="nav-link">Study Material</a>
+        <Link to="/check-attendance" className="nav-link">Attendance</Link>
       </div>
       
       <div>
-        <Link to="/admin-login" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
-          Admin Login
+        <Link to="/login" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+          Staff Login
         </Link>
       </div>
     </nav>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Loader2 } from 'lucide-react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,19 +12,36 @@ const Login = () => {
   
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
-    setTimeout(() => {
+    try {
+      // Check Admin
       if (email === 'devshukla1245@gmail.com' && password === 'Admin@1234') {
-        localStorage.setItem('isAdmin', 'true');
+        localStorage.setItem('role', 'admin');
         navigate('/admin');
-      } else {
-        setError('Invalid admin credentials.');
+        return;
       }
+
+      // Check Teacher in Firestore
+      const q = query(collection(db, 'teachers'), where('email', '==', email), where('password', '==', password));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        localStorage.setItem('role', 'teacher');
+        localStorage.setItem('teacherId', snapshot.docs[0].id);
+        navigate('/staff');
+      } else {
+        setError('Invalid credentials.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred during login.');
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -34,8 +53,8 @@ const Login = () => {
               <BookOpen size={40} color="var(--primary-color)" />
             </div>
           </div>
-          <h2>Admin Login</h2>
-          <p className="text-muted">Enter credentials to access admin panel</p>
+          <h2>Staff Login</h2>
+          <p className="text-muted">Enter credentials to access your dashboard</p>
         </div>
 
         {error && (
@@ -46,14 +65,14 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Admin Email</label>
+            <label>Email Address</label>
             <input 
               type="email" 
               className="input-field" 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Admin Email"
+              placeholder="Email"
             />
           </div>
           
@@ -70,7 +89,7 @@ const Login = () => {
           </div>
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={loading}>
-            {loading ? <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} /> : 'Log In'}
+            {loading ? <Loader2 size={20} className="animate-spin" /> : 'Log In'}
           </button>
         </form>
       </div>

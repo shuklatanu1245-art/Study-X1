@@ -1,0 +1,41 @@
+import React from 'react';
+import { LogOut, CalendarCheck } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+
+const StaffDashboard = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('role');
+    localStorage.removeItem('teacherId');
+    navigate('/login');
+  };
+
+  return (
+    <div>
+      <header className="app-header">
+        <h2 className="text-gradient">Staff Dashboard</h2>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <button onClick={handleLogout} className="btn btn-secondary">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
+      </header>
+
+      <main className="container animate-fade-in">
+        <h1 style={{ marginBottom: '32px' }}>Welcome, Teacher</h1>
+        
+        <div className="grid grid-cols-4">
+          <Link to="/staff/attendance" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <CalendarCheck size={32} color="var(--primary-color)" style={{ marginBottom: '16px' }} />
+              <h3>Mark Attendance</h3>
+              <p className="text-muted">Record daily attendance for your batches</p>
+            </div>
+          </Link>
+        </div>
+      </main>
+    </div>
+  );
+};
+export default StaffDashboard;

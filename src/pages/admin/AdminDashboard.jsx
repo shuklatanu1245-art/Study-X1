@@ -1,15 +1,13 @@
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
 import { Upload, Users, BookOpen, LogOut } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
-  const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    navigate('/admin-login');
   };
 
   return (
@@ -17,7 +15,6 @@ const AdminDashboard = () => {
       <header className="app-header">
         <h2 className="text-gradient">StudyX Admin</h2>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <span className="text-muted">{currentUser?.email}</span>
           <button onClick={handleLogout} className="btn btn-secondary">
             <LogOut size={18} /> Logout
           </button>

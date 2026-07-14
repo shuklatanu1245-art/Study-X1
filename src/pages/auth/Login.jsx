@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BookOpen, Loader2 } from 'lucide-react';
 
 const Login = () => {
@@ -9,19 +8,21 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setError('');
-      setLoading(true);
-      await login(email, password);
-    } catch (err) {
-      setError('Failed to log in. Please check your credentials.');
-    } finally {
+    setLoading(true);
+    
+    setTimeout(() => {
+      if (email === 'devshukla1245@gmail.com' && password === 'Admin@1234') {
+        localStorage.setItem('isAdmin', 'true');
+        navigate('/admin');
+      } else {
+        setError('Invalid admin credentials.');
+      }
       setLoading(false);
-    }
+    }, 800);
   };
 
   return (
@@ -33,8 +34,8 @@ const Login = () => {
               <BookOpen size={40} color="var(--primary-color)" />
             </div>
           </div>
-          <h2>Welcome Back</h2>
-          <p className="text-muted">Sign in to continue your learning journey</p>
+          <h2>Admin Login</h2>
+          <p className="text-muted">Enter credentials to access admin panel</p>
         </div>
 
         {error && (
@@ -45,14 +46,14 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Email Address</label>
+            <label>Admin Email</label>
             <input 
               type="email" 
               className="input-field" 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
+              placeholder="Admin Email"
             />
           </div>
           
@@ -69,15 +70,9 @@ const Login = () => {
           </div>
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={loading}>
-            {loading ? <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} /> : 'Sign In'}
+            {loading ? <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} /> : 'Log In'}
           </button>
         </form>
-
-        <div style={{ textAlign: 'center', marginTop: '24px' }}>
-          <p className="text-muted">
-            Don't have an account? <Link to="/signup" style={{ color: 'var(--primary-color)', textDecoration: 'none', fontWeight: '500' }}>Sign up</Link>
-          </p>
-        </div>
       </div>
     </div>
   );

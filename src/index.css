@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Royal Purple & Gold Theme */
-  --bg-color: #1a0b2e; /* Deep rich purple backgound */
-  --text-color: #f8fafc;
-  --text-muted: #b8a9c9;
-  --primary-color: #d4af37; /* Metallic Gold */
-  --primary-hover: #f1c40f; /* Brighter gold on hover */
-  --secondary-color: #5b21b6; /* Lighter purple */
-  --glass-bg: rgba(45, 27, 78, 0.7);
-  --glass-border: rgba(212, 175, 55, 0.2); /* Subtle gold border */
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  /* Clean Navy/White Theme */
+  --bg-color: #f4f6f8; /* Light Gray Background */
+  --text-color: #1e293b; /* Dark Slate */
+  --text-muted: #64748b; /* Medium Slate */
+  --primary-color: #0c1b33; /* Deep Navy Blue */
+  --primary-hover: #1e3a8a; /* Lighter Navy */
+  --secondary-color: #f1f5f9; /* Very Light Gray */
+  --glass-bg: #ffffff; /* Solid White */
+  --glass-border: #e2e8f0; /* Light Gray Border */
+  --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --danger-color: #ef4444;
   --success-color: #10b981;
 }
@@ -27,18 +27,11 @@ body {
   color: var(--text-color);
   min-height: 100vh;
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(270, 50%, 15%, 1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(45, 100%, 50%, 0.1) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(280, 60%, 20%, 0.5) 0, transparent 50%);
-  background-attachment: fixed;
 }
 
-/* Glassmorphism Classes */
+/* Glassmorphism Classes -> Now Clean Solid Cards */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 16px;
@@ -47,8 +40,6 @@ body {
 
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   padding: 16px;
@@ -60,8 +51,8 @@ body {
 
 .glass-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
 }
 
 /* Buttons */
@@ -81,25 +72,25 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: var(--primary-color);
   color: white;
-  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+  box-shadow: 0 4px 10px rgba(12, 27, 51, 0.2);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 6px 15px rgba(12, 27, 51, 0.3);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--secondary-color);
+  color: var(--text-color);
   border: 1px solid var(--glass-border);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #e2e8f0;
 }
 
 /* Forms */
@@ -113,13 +104,13 @@ body {
 .input-group label {
   font-size: 0.9rem;
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .input-field {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--glass-border);
-  color: white;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: var(--text-color);
   padding: 12px 16px;
   border-radius: 8px;
   font-family: 'Outfit', sans-serif;
@@ -130,8 +121,8 @@ body {
 
 .input-field:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 /* Typography */
@@ -142,9 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #60a5fa, #a78bfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary-color);
 }
 
 .text-muted {
@@ -199,14 +188,18 @@ h1, h2, h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(15, 23, 42, 0.8);
-  border-bottom: 1px solid var(--glass-border);
+  background: var(--primary-color);
+  color: white;
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: none;
+}
+
+.app-header h2 {
+  color: white;
+  margin: 0;
 }
 
 /* PW Layout Styles */
@@ -218,7 +211,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   padding: 40px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(91, 33, 182, 0.4) 100%);
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
   border: 1px solid var(--glass-border);
   margin-bottom: 48px;
 }
@@ -233,9 +226,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 3.5rem;
   line-height: 1.1;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #d4af37, #f1c40f);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary-color);
 }
 
 .navbar {
@@ -243,12 +234,16 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: space-between;
   align-items: center;
   padding: 16px 40px;
-  background: rgba(26, 11, 46, 0.9);
-  backdrop-filter: blur(16px);
+  background: var(--primary-color);
+  color: white;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.navbar h2 {
+  color: white !important;
 }
 
 .nav-links {
@@ -257,7 +252,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-link {
-  color: var(--text-color);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-weight: 500;
   font-size: 1.1rem;
@@ -265,7 +260,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-link:hover {
-  color: var(--primary-color);
+  color: white;
 }
 
 .batch-image {
@@ -274,15 +269,15 @@ h1, h2, h3, h4, h5, h6 {
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 16px;
-  background: var(--secondary-color);
+  background: #cbd5e1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .badge {
-  background: rgba(212, 175, 55, 0.2);
-  color: var(--primary-color);
+  background: #e0f2fe;
+  color: #0284c7;
   padding: 4px 12px;
   border-radius: 100px;
   font-size: 0.8rem;
@@ -292,10 +287,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer {
-  background: rgba(0, 0, 0, 0.4);
-  border-top: 1px solid var(--glass-border);
+  background: var(--primary-color);
+  color: white;
   padding: 60px 40px 20px;
   margin-top: 60px;
+}
+.footer h3 {
+  color: white;
+}
+.footer a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.footer a:hover {
+  color: white !important;
 }
 
 /* Mobile App Layout Classes */

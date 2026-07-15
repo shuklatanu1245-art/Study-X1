@@ -50,7 +50,7 @@ const Timetable = () => {
     <div className="mobile-app-container animate-fade-in" style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
       <header className="mobile-app-header" style={{ paddingBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <ArrowLeft size={24} style={{ cursor: 'pointer' }} onClick={() => navigate(-1)} />
+          <ArrowLeft size={24} style={{ cursor: 'pointer' }} onClick={() => navigate('/student')} />
           <h2 style={{ margin: 0, fontSize: '1.2rem' }}>Class Timetable</h2>
         </div>
       </header>

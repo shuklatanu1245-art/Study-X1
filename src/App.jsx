@@ -8,7 +8,6 @@ import './App.css';
 import Layout from './components/Layout';
 
 // Public Pages
-import Home from './pages/public/Home';
 import Batches from './pages/public/Batches';
 import CheckAttendance from './pages/public/CheckAttendance';
 import FeeStructure from './pages/public/FeeStructure';
@@ -51,9 +50,10 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes with Layout */}
-        <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/batches" element={<Layout><Batches /></Layout>} />
-        <Route path="/check-attendance" element={<Layout><CheckAttendance /></Layout>} />
+        {/* Redirect root to login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/batches" element={<Batches />} />
+        <Route path="/check-attendance" element={<CheckAttendance />} />
         
         {/* Student/Public specific UI Routes (Mobile App Simulator wrapper) */}
         <Route path="/fee-structure" element={<FeeStructure />} />

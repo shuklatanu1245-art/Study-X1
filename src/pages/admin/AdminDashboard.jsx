@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Users, BookOpen, LogOut, GraduationCap, Briefcase, Settings, Image } from 'lucide-react';
+import { Upload, Users, BookOpen, LogOut, GraduationCap, Briefcase, Settings, Image, Megaphone, MessageSquare } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -70,6 +70,21 @@ const AdminDashboard = () => {
               <Image size={32} color="#0d9488" style={{ marginBottom: '16px' }} />
               <h3>Fee Structure</h3>
               <p className="text-muted">Upload Fee Image</p>
+            </div>
+          </Link>
+          <Link to="/admin/announcements" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <Megaphone size={32} color="#f59e0b" style={{ marginBottom: '16px' }} />
+              <h3>Announcements</h3>
+              <p className="text-muted">Broadcast notices</p>
+            </div>
+          </Link>
+
+          <Link to="/admin/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <MessageSquare size={32} color="#8b5cf6" style={{ marginBottom: '16px' }} />
+              <h3>Messages</h3>
+              <p className="text-muted">Reply to doubts</p>
             </div>
           </Link>
         </div>

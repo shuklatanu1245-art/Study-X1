@@ -21,6 +21,8 @@ import StaffManager from './pages/admin/StaffManager';
 import StudentManager from './pages/admin/StudentManager';
 import AppSettings from './pages/admin/AppSettings';
 import FeeManager from './pages/admin/FeeManager';
+import AnnouncementsManager from './pages/admin/AnnouncementsManager';
+import MessageManager from './pages/admin/MessageManager';
 
 // Staff Pages
 import StaffDashboard from './pages/staff/StaffDashboard';
@@ -74,6 +76,8 @@ function App() {
               <Route path="/students" element={<StudentManager />} />
               <Route path="/settings" element={<AppSettings />} />
               <Route path="/fees" element={<FeeManager />} />
+              <Route path="/announcements" element={<AnnouncementsManager />} />
+              <Route path="/messages" element={<MessageManager />} />
             </Routes>
           </ProtectedRoute>
         } />
@@ -86,6 +90,8 @@ function App() {
               <Route path="/attendance" element={<AttendancePanel />} />
               <Route path="/students" element={<StaffStudentManager />} />
               <Route path="/timetable" element={<TimetableManager />} />
+              <Route path="/announcements" element={<AnnouncementsManager />} />
+              <Route path="/messages" element={<MessageManager />} />
             </Routes>
           </ProtectedRoute>
         } />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, CalendarCheck, Users, Calendar } from 'lucide-react';
+import { LogOut, CalendarCheck, Users, Calendar, Megaphone, MessageSquare } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const StaffDashboard = () => {
@@ -47,6 +47,21 @@ const StaffDashboard = () => {
               <Calendar size={32} color="#3b82f6" style={{ marginBottom: '16px' }} />
               <h3>Manage Timetable</h3>
               <p className="text-muted">Upload timetable image</p>
+            </div>
+          </Link>
+          <Link to="/staff/announcements" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <Megaphone size={32} color="#f59e0b" style={{ marginBottom: '16px' }} />
+              <h3>Announcements</h3>
+              <p className="text-muted">Broadcast notices</p>
+            </div>
+          </Link>
+
+          <Link to="/staff/messages" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <MessageSquare size={32} color="#8b5cf6" style={{ marginBottom: '16px' }} />
+              <h3>Messages</h3>
+              <p className="text-muted">Reply to doubts</p>
             </div>
           </Link>
         </div>

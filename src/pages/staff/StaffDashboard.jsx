@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, CalendarCheck } from 'lucide-react';
+import { LogOut, CalendarCheck, Users } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const StaffDashboard = () => {
@@ -31,6 +31,14 @@ const StaffDashboard = () => {
               <CalendarCheck size={32} color="var(--primary-color)" style={{ marginBottom: '16px' }} />
               <h3>Mark Attendance</h3>
               <p className="text-muted">Record daily attendance for your batches</p>
+            </div>
+          </Link>
+          
+          <Link to="/staff/students" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <Users size={32} color="var(--success-color)" style={{ marginBottom: '16px' }} />
+              <h3>Manage Students</h3>
+              <p className="text-muted">Register students who haven't signed up</p>
             </div>
           </Link>
         </div>

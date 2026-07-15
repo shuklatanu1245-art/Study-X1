@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { BookOpen, Loader2 } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
@@ -12,30 +12,50 @@ const Login = () => {
   
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // If logged in, redirect to respective dashboard
+    if (localStorage.getItem('role')) {
+      const role = localStorage.getItem('role');
+      navigate(role === 'admin' ? '/admin' : role === 'teacher' ? '/staff' : '/student');
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     try {
-      // Check Admin
+      // 1. Check Admin
       if (email === 'devshukla1245@gmail.com' && password === 'Admin@1234') {
         localStorage.setItem('role', 'admin');
         navigate('/admin');
         return;
       }
 
-      // Check Teacher in Firestore
-      const q = query(collection(db, 'teachers'), where('email', '==', email), where('password', '==', password));
-      const snapshot = await getDocs(q);
+      // 2. Check Teacher
+      const teacherQ = query(collection(db, 'teachers'), where('email', '==', email), where('password', '==', password));
+      const teacherSnap = await getDocs(teacherQ);
 
-      if (!snapshot.empty) {
+      if (!teacherSnap.empty) {
         localStorage.setItem('role', 'teacher');
-        localStorage.setItem('teacherId', snapshot.docs[0].id);
+        localStorage.setItem('teacherId', teacherSnap.docs[0].id);
         navigate('/staff');
-      } else {
-        setError('Invalid credentials.');
+        return;
       }
+      
+      // 3. Check Student
+      const studentQ = query(collection(db, 'students'), where('email', '==', email), where('password', '==', password));
+      const studentSnap = await getDocs(studentQ);
+
+      if (!studentSnap.empty) {
+        localStorage.setItem('role', 'student');
+        localStorage.setItem('studentId', studentSnap.docs[0].id);
+        navigate('/student');
+        return;
+      }
+
+      setError('Invalid credentials.');
     } catch (err) {
       console.error(err);
       setError('An error occurred during login.');
@@ -53,7 +73,7 @@ const Login = () => {
               <BookOpen size={40} color="var(--primary-color)" />
             </div>
           </div>
-          <h2>Staff Login</h2>
+          <h2>Login to StudyX</h2>
           <p className="text-muted">Enter credentials to access your dashboard</p>
         </div>
 
@@ -92,6 +112,10 @@ const Login = () => {
             {loading ? <Loader2 size={20} className="animate-spin" /> : 'Log In'}
           </button>
         </form>
+        
+        <p style={{ textAlign: 'center', marginTop: '24px', color: 'var(--text-muted)' }}>
+          Don't have an account? <Link to="/signup" style={{ color: 'var(--primary-color)', textDecoration: 'none', fontWeight: 'bold' }}>Register Here</Link>
+        </p>
       </div>
     </div>
   );

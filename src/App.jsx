@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
 import './App.css';
 
 // Global Components
@@ -9,18 +10,22 @@ import Layout from './components/Layout';
 // Public Pages
 import Home from './pages/public/Home';
 import Batches from './pages/public/Batches';
-import CheckAttendance from './pages/public/CheckAttendance'; // New
+import CheckAttendance from './pages/public/CheckAttendance';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ContentManager from './pages/admin/ContentManager';
-import BatchManager from './pages/admin/BatchManager'; // New
-import StaffManager from './pages/admin/StaffManager'; // New
-import StudentManager from './pages/admin/StudentManager'; // New
+import BatchManager from './pages/admin/BatchManager';
+import StaffManager from './pages/admin/StaffManager';
+import StudentManager from './pages/admin/StudentManager';
 
 // Staff Pages
-import StaffDashboard from './pages/staff/StaffDashboard'; // New
-import AttendancePanel from './pages/staff/AttendancePanel'; // New
+import StaffDashboard from './pages/staff/StaffDashboard';
+import AttendancePanel from './pages/staff/AttendancePanel';
+import StaffStudentManager from './pages/staff/StaffStudentManager';
+
+// Student Pages
+import StudentDashboard from './pages/student/StudentDashboard';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const role = localStorage.getItem('role');
@@ -30,7 +35,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   }
   
   if (role !== requiredRole) {
-    return <Navigate to={role === 'admin' ? "/admin" : "/staff"} />;
+    return <Navigate to={role === 'admin' ? "/admin" : role === 'teacher' ? "/staff" : "/student"} />;
   }
   
   return children;
@@ -45,8 +50,9 @@ function App() {
         <Route path="/batches" element={<Layout><Batches /></Layout>} />
         <Route path="/check-attendance" element={<Layout><CheckAttendance /></Layout>} />
         
-        {/* Staff & Admin Login */}
+        {/* Auth Pages */}
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         
         {/* Protected Admin Routes */}
         <Route path="/admin/*" element={
@@ -67,6 +73,16 @@ function App() {
             <Routes>
               <Route path="/" element={<StaffDashboard />} />
               <Route path="/attendance" element={<AttendancePanel />} />
+              <Route path="/students" element={<StaffStudentManager />} />
+            </Routes>
+          </ProtectedRoute>
+        } />
+        
+        {/* Protected Student Routes */}
+        <Route path="/student/*" element={
+          <ProtectedRoute requiredRole="student">
+            <Routes>
+              <Route path="/" element={<StudentDashboard />} />
             </Routes>
           </ProtectedRoute>
         } />

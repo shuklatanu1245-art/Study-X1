@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, CalendarCheck, Users } from 'lucide-react';
+import { LogOut, CalendarCheck, Users, Calendar } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const StaffDashboard = () => {
@@ -39,6 +39,14 @@ const StaffDashboard = () => {
               <Users size={32} color="var(--success-color)" style={{ marginBottom: '16px' }} />
               <h3>Manage Students</h3>
               <p className="text-muted">Register students who haven't signed up</p>
+            </div>
+          </Link>
+          
+          <Link to="/staff/timetable" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="glass-card">
+              <Calendar size={32} color="#3b82f6" style={{ marginBottom: '16px' }} />
+              <h3>Manage Timetable</h3>
+              <p className="text-muted">Upload timetable image</p>
             </div>
           </Link>
         </div>

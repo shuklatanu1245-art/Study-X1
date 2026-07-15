@@ -90,39 +90,26 @@ const StudentDashboard = () => {
         <h3 style={{ fontSize: '1rem', color: '#0f172a', marginBottom: '16px', fontWeight: 700 }}>Quick Access</h3>
         
         {/* Quick Access Grid */}
-        <div className="quick-access-grid">
-          {/* Attendance (Working Link) */}
+        <div className="quick-access-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
           <Link to="/check-attendance" className="qa-card qa-purple">
             <div className="qa-icon-wrap"><ClipboardCheck size={24} /></div>
             <span>Attendance</span>
           </Link>
           
-          {/* Study Material / Batches (Working Link) */}
           <Link to="/batches" className="qa-card qa-green">
             <div className="qa-icon-wrap"><BookText size={24} /></div>
             <span>Homework</span>
           </Link>
 
-          {/* Placeholders */}
-          <div className="qa-card qa-blue">
+          <Link to="/timetable" className="qa-card qa-blue">
             <div className="qa-icon-wrap"><Calendar size={24} /></div>
             <span>Timetable</span>
-          </div>
+          </Link>
 
-          <div className="qa-card qa-yellow">
-            <div className="qa-icon-wrap"><FileText size={24} /></div>
-            <span>Results</span>
-          </div>
-
-          <div className="qa-card qa-pink">
+          <Link to="/fee-structure" className="qa-card qa-pink">
             <div className="qa-icon-wrap"><CreditCard size={24} /></div>
-            <span>Fee Details</span>
-          </div>
-
-          <div className="qa-card qa-teal">
-            <div className="qa-icon-wrap"><Receipt size={24} /></div>
-            <span>Fee Payment</span>
-          </div>
+            <span>Fee Structure</span>
+          </Link>
         </div>
 
         {/* Announcements */}

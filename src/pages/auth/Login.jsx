@@ -1,121 +1,139 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { BookOpen, Loader2 } from 'lucide-react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { UserCircle, Lock, Loader2 } from 'lucide-react';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    role: 'student'
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // If logged in, redirect to respective dashboard
-    if (localStorage.getItem('role')) {
-      const role = localStorage.getItem('role');
-      navigate(role === 'admin' ? '/admin' : role === 'teacher' ? '/staff' : '/student');
-    }
-  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
-    
+    setLoading(true);
+
     try {
-      // 1. Check Admin
-      if (email === 'devshukla1245@gmail.com' && password === 'Admin@1234') {
-        localStorage.setItem('role', 'admin');
-        navigate('/admin');
-        return;
+      if (formData.role === 'admin') {
+        if (formData.email === 'devshukla1245@gmail.com' && formData.password === 'admin123') {
+          localStorage.setItem('role', 'admin');
+          navigate('/admin');
+        } else {
+          setError('Invalid admin credentials');
+        }
+      } 
+      else if (formData.role === 'teacher') {
+        const q = query(
+          collection(db, 'staff'),
+          where('email', '==', formData.email),
+          where('password', '==', formData.password)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          localStorage.setItem('role', 'teacher');
+          localStorage.setItem('teacherId', querySnapshot.docs[0].id);
+          navigate('/staff');
+        } else {
+          setError('Invalid teacher credentials');
+        }
       }
-
-      // 2. Check Teacher
-      const teacherQ = query(collection(db, 'teachers'), where('email', '==', email), where('password', '==', password));
-      const teacherSnap = await getDocs(teacherQ);
-
-      if (!teacherSnap.empty) {
-        localStorage.setItem('role', 'teacher');
-        localStorage.setItem('teacherId', teacherSnap.docs[0].id);
-        navigate('/staff');
-        return;
+      else {
+        const q = query(
+          collection(db, 'students'),
+          where('email', '==', formData.email),
+          where('password', '==', formData.password)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          localStorage.setItem('role', 'student');
+          localStorage.setItem('studentId', querySnapshot.docs[0].id);
+          navigate('/student');
+        } else {
+          setError('Invalid student credentials');
+        }
       }
-      
-      // 3. Check Student
-      const studentQ = query(collection(db, 'students'), where('email', '==', email), where('password', '==', password));
-      const studentSnap = await getDocs(studentQ);
-
-      if (!studentSnap.empty) {
-        localStorage.setItem('role', 'student');
-        localStorage.setItem('studentId', studentSnap.docs[0].id);
-        navigate('/student');
-        return;
-      }
-
-      setError('Invalid credentials.');
     } catch (err) {
+      setError('An error occurred during login. Please try again.');
       console.error(err);
-      setError('An error occurred during login.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex-center" style={{ minHeight: '100vh', padding: '24px' }}>
-      <div className="glass-panel animate-fade-in" style={{ width: '100%', maxWidth: '400px' }}>
+    <div className="container flex-center animate-fade-in" style={{ minHeight: '80vh' }}>
+      <div className="glass-panel" style={{ maxWidth: '400px', width: '100%', padding: '40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-            <div style={{ background: 'var(--glass-bg)', padding: '16px', borderRadius: '50%' }}>
-              <BookOpen size={40} color="var(--primary-color)" />
-            </div>
+          <div style={{ display: 'inline-flex', padding: '16px', background: '#e0f2fe', borderRadius: '50%', marginBottom: '16px' }}>
+            <UserCircle size={48} color="var(--primary-color)" />
           </div>
-          <h2>Login to StudyX</h2>
-          <p className="text-muted">Enter credentials to access your dashboard</p>
+          <h2 style={{ color: 'var(--primary-color)' }}>Welcome Back</h2>
+          <p className="text-muted">Login to your account to continue</p>
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.2)', color: 'var(--danger-color)', padding: '12px', borderRadius: '8px', marginBottom: '24px', textAlign: 'center' }}>
+          <div style={{ background: '#fef2f2', border: '1px solid #f87171', color: '#b91c1c', padding: '12px', borderRadius: '8px', marginBottom: '20px', fontSize: '0.9rem', textAlign: 'center' }}>
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
+            <label>Login As</label>
+            <select 
+              className="input-field"
+              value={formData.role}
+              onChange={(e) => setFormData({...formData, role: e.target.value})}
+            >
+              <option value="student">Student</option>
+              <option value="teacher">Teacher / Staff</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <div className="input-group">
             <label>Email Address</label>
             <input 
               type="email" 
-              className="input-field" 
+              className="input-field"
+              placeholder="Enter your email" 
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-            />
-          </div>
-          
-          <div className="input-group">
-            <label>Password</label>
-            <input 
-              type="password" 
-              className="input-field" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
             />
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '16px' }} disabled={loading}>
-            {loading ? <Loader2 size={20} className="animate-spin" /> : 'Log In'}
+          <div className="input-group" style={{ marginBottom: '32px' }}>
+            <label>Password</label>
+            <input 
+              type="password" 
+              className="input-field"
+              placeholder="Enter your password" 
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+            {loading ? <Loader2 className="animate-spin" size={20} /> : <Lock size={20} />}
+            {loading ? 'Logging in...' : 'Login Securely'}
           </button>
+          
+          {formData.role === 'student' && (
+             <div style={{ textAlign: 'center', marginTop: '24px' }}>
+                <p className="text-muted" style={{ fontSize: '0.9rem' }}>
+                  Don't have an account? <Link to="/signup" style={{ color: 'var(--primary-color)', fontWeight: 600, textDecoration: 'none' }}>Sign Up</Link>
+                </p>
+             </div>
+          )}
         </form>
-        
-        <p style={{ textAlign: 'center', marginTop: '24px', color: 'var(--text-muted)' }}>
-          Don't have an account? <Link to="/signup" style={{ color: 'var(--primary-color)', textDecoration: 'none', fontWeight: 'bold' }}>Register Here</Link>
-        </p>
       </div>
     </div>
   );
